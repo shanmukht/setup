@@ -24,6 +24,8 @@ cd $OO_HOME
 
 cp $BUILD_BASE/dev-tools/setup-scripts/* .
 
+export PATH=$PATH:/usr/local/bin
+
 ./oneops_build.sh "$@"
 
 echo -n "Do you want to execute OneOps validation script (y/n):"
