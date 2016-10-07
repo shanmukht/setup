@@ -72,7 +72,7 @@ Follow below steps to install OneOps on any bare metal like new Linux system (or
 	./install.sh
 	```
 
-6. OneOps run at http://<<BARE_METAL_BOX_IP_ADDRESS>>:3000
+6. OneOps run at http://BARE_METAL_BOX_IP_ADDRESS:3000
 	> By default, Clould boxes won't expose the port numbers. You should enable port:3000 manually.
 
 General

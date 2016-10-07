@@ -7,14 +7,21 @@ export VAGRANT_MNT="/vagrant"
 
 source /etc/os-release
 OS_NAME="$ID"
-INIT_FILE_PATH="$VAGRANT_MNT/os/$OS_NAME/init.sh"
 
-if [ ! -f $INIT_FILE_PATH ]; then
-	echo "$INIT_FILE_PATH not found. Create OS specific initialization file"
-	exit 1
-fi
-
-source "$INIT_FILE_PATH"
+case "$OS_NAME" in
+	"centos") 
+		export POSTGRES_RPM_PATH="http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-8.noarch.rpm" 
+		;;
+	"rhel") 
+		export POSTGRES_RPM_PATH="http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-redhat92-9.2-9.noarch.rpm"
+		source "$VAGRANT_MNT/os/rhel/init.sh"
+		;;
+	*) 
+		echo "You are seeing this error because, current installation is not able to prepare POSTGRES_RPM_PATH for this OS $OS_NAME ."
+		echo "Please reach to OneOps team for help."
+		exit 1 
+		;;
+esac
 
 echo '127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 search api antenna opsmq daq opsdb sysdb kloopzappdb kloopzcmsdb cmsapi sensor activitidb kloopzmq searchmq' > /etc/hosts
 echo '::1         localhost localhost.localdomain localhost6 localhost6.localdomain6' >> /etc/hosts
@@ -33,16 +40,6 @@ systemctl start ntpd
 
 # postgres
 echo "OO install postgres 9.2"
-
-if [ -z "$POSTGRES_RPM_PATH" ]; then
-	echo "To install postgres, POSTGRES_RPM_PATH is required inside os specific init.sh file"
-	echo "Usage is:"
-	echo "	CentOs7: 'export POSTGRES_RPM_PATH=http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-8.noarch.rpm'"
-	echo "	RHEL7: 'export POSTGRES_RPM_PATH=http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-redhat92-9.2-9.noarch.rpm'"
-	echo "	Please reach to OneOps team if you are using any other OS.."
-	exit 1
-fi
-
 yum -y install $POSTGRES_RPM_PATH
 yum -y install postgresql92-server postgresql92-contrib
 yum -y install postgresql-devel
