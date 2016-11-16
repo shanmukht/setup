@@ -1,5 +1,9 @@
 echo "running install.sh file"
 
+echo -ne "Do you want to validate OneOps after installation?(true|false):"
+read OO_VALIDATION
+export OO_VALIDATION=$OO_VALIDATION
+
 INIT="/init"
 VAGRANT="/vagrant"
 GITHUB_URL='https://github.com/oneops'
