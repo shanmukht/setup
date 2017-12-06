@@ -5,7 +5,7 @@ This is a local OneOps instance using Vagrant without metrics collections.  It's
 
 For a full-deployment of OneOps with metrics (back loop) use the core assembly within this vagrant image.
 
-Prerequisites
+Prerequisites:
 =======
 
 install VirtualBox and Vagrant 1.8.4 (At this time 1.8.5 is latest. But it has few issues with our installation)
